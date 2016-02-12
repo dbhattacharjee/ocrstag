@@ -13,7 +13,8 @@ $ocr->post('/', function (Request $request) use ($app) {
                 if (!$file->getError()) {
                     $returnCode = 200;
                     $tesseract = new \TesseractOCR($file->getRealPath());
-                    echo 'FC:'.file_get_contents($file->getRealPath());die;
+                    $tesseract->setTempDir(__DIR__.'/temp-ocr');
+                    
                     //$tesseract->setWhitelist(range('A', 'Z'), range(0, 9), '_-@.');
                     $output['data'] = processOCRData(explode(PHP_EOL, preg_replace('"(\r?\n){2,}"', PHP_EOL, $tesseract->recognize())));
                 } else {
