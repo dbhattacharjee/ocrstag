@@ -23,8 +23,8 @@ $ocr->post('/', function (Request $request) use ($app) {
             } else {
                 $output['data'] = 'Please upload a file';
             }
-
-            return new Response(json_encode($output), $returnCode);
+            return $output['data'];
+            //return new Response(json_encode($output), $returnCode);
         });
         
 function processOCRData($data) {
@@ -62,7 +62,15 @@ function processOCRData($data) {
             }
         }
     }
-    return $output;
+    $html = '';
+    $html = '<b>Sender :</b>';
+    $html .= isset($output['SENDER']) ? $output['SENDER'] : 'NOT FOUND';
+    $html .= '<br/><b>Recipient :</b>';
+    $html .= isset($output['RECIPIENT']) ? $output['RECIPIENT'] : 'NOT FOUND';
+    $html .= '<br/><b>Tracking Code :</b>';
+    $html .= isset($output['TRACKING_CODE']) ? $output['TRACKING_CODE'] : 'NOT FOUND';
+    return $html;
+    //return $output;
 }        
 
 return $ocr;
